@@ -92,8 +92,6 @@ flutter run
 - [x] Profile update
 - [x] Interest tagging
 - [x] Username availability
-- [x] Send message via REST → RabbitMQ → MongoDB
-- [x] WebSocket receive in real-time
 
 ---
 

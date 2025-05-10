@@ -46,7 +46,7 @@ class LoginController extends GetxController {
           await authController.login(
             res.data!.access_token,
             res.data!.refresh_token,
-            res.data!.user
+            res.data!.user,
           );
           Get.offAllNamed(AppRoutes.profile);
         } else {
@@ -56,6 +56,12 @@ class LoginController extends GetxController {
       }
     } catch (e) {
       if (e is DioException) {
+        if (e.type == DioExceptionType.connectionError) {
+          print('Connection refused or network error');
+          // You can show a dialog/snackbar etc.
+        } else {
+          print('Other Dio error: ${e.message}');
+        }
         final message = e.response?.data["message"];
         Get.snackbar("Error", message, colorText: Colors.red);
       }

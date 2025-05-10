@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart' as dio;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:myapp/core/controller/auth_controller.dart';
 import 'package:myapp/core/model/payload/token_payload.dart';
@@ -17,6 +18,7 @@ class AuthInterceptor extends dio.InterceptorsWrapper {
     dio.RequestInterceptorHandler handler,
   ) {
     final token = 'Bearer ${authController.getToken()}';
+    options.headers['x-api-key'] = dotenv.env['API_KEY'];
     options.headers['Authorization'] = token;
     return handler.next(options);
   }

@@ -7,6 +7,8 @@ import 'package:myapp/theme/colors.dart';
 import 'package:myapp/widget/info_item.dart';
 
 class ViewProfile extends GetView<ProfileController> {
+  const ViewProfile({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

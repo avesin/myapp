@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:myapp/core/model/data/user.dart';
 import 'package:myapp/core/model/payload/check_username_payload.dart';
 import 'package:myapp/core/model/payload/interest_payload.dart';
@@ -11,14 +12,19 @@ import 'package:myapp/core/model/response/base_response.dart';
 import 'package:myapp/core/model/response/interest_response.dart';
 import 'package:myapp/core/model/response/login_response.dart';
 import 'package:myapp/core/model/response/token_response.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:retrofit/retrofit.dart';
 
 part 'api_client.g.dart';
 
-@RestApi(baseUrl: "http://192.168.100.103:3001/api")
+@RestApi(baseUrl: '')
 abstract class ApiClient {
-  factory ApiClient(Dio dio, {String baseUrl}) = _ApiClient;
+  factory ApiClient(Dio dio, {required String? baseUrl}) {
+    final url = baseUrl.isBlank == true ? dotenv.env['API_URL'] : baseUrl;
+    print("${baseUrl.isBlank == true} :: $baseUrl :: ${dotenv.env['API_URL']}");
+    return _ApiClient(dio, baseUrl: url);
+  }
 
   @GET("/check-username")
   Future<BaseResponse<CheckUsernameResponse>> checkUsername(

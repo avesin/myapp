@@ -54,7 +54,11 @@ class LoginView extends GetView<LoginController> {
                           },
                           icon: ShaderMask(
                             shaderCallback: ConstWidget.shaderGold,
-                            child: Icon(Icons.visibility_off),
+                            child: Icon(
+                              controller.obscurePassword.value == false
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
                           ),
                         ),
                       ),

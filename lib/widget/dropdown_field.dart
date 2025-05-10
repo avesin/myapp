@@ -39,7 +39,7 @@ class DropdownField extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: DropdownButton<String>(
-                value: value,
+                value: items.contains(value) ? value : items.first,
                 icon: Icon(Icons.keyboard_arrow_down),
                 isExpanded: true,
                 underline: const SizedBox(),

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -14,7 +15,7 @@ import 'package:myapp/route/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await dotenv.load(fileName: ".env");
   await GetStorage.init();
 
   //Initialize Logging
@@ -35,18 +36,21 @@ void main() async {
     isDebuggable: true,
     enabled: true,
   );
-  runApp(MyApp());
+  runApp(MyApp(binding: InitialBinding()));
 }
 
 class MyApp extends StatelessWidget {
   final themeController = Get.put(ThemeController());
+  final InitialBinding binding;
+
+  MyApp({required this.binding});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => GetMaterialApp(
-        initialBinding: InitialBinding(),
+        initialBinding: binding,
         title: 'Absen',
         theme: themeController.theme.value,
         debugShowCheckedModeBanner: false,
@@ -62,7 +66,13 @@ class InitialBinding extends Bindings {
   void dependencies() {
     Get.put(AuthController(), permanent: true);
     Get.put(SecureSession(), permanent: true);
-    final dio = Dio();
+    final dio = Dio(
+      BaseOptions(
+        connectTimeout: const Duration(seconds: 15),
+        receiveTimeout: const Duration(seconds: 15), // ⏳ receive timeout
+        sendTimeout: const Duration(seconds: 15), // ⏳ send timeout
+      ),
+    );
     dio.interceptors.add(
       LogInterceptor(
         request: true,
@@ -72,7 +82,8 @@ class InitialBinding extends Bindings {
         error: true,
       ),
     );
-    final apiClient = ApiClient(dio);
+    final baseUrl = dotenv.env['API_URL'];
+    final apiClient = ApiClient(dio, baseUrl: baseUrl);
     Get.put<ApiClient>(apiClient);
     dio.interceptors.add(AuthInterceptor(baseDio: dio));
     Get.put(ImagePicker());

@@ -51,7 +51,7 @@ Backend will run on: **http://localhost:3001**
 ### 1. Clone the Flutter App
 
 ```bash
-git clone https://github.com/avesin/flutter-youapp.git
+git clone https://github.com/avesin/myapp.git
 cd flutter-youapp
 ```
 

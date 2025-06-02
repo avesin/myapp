@@ -26,11 +26,6 @@ In the `backend-myapp/` folder, create a file named `.env` with the following co
 PORT=3001
 APP_ENV=development
 
-# MongoDB
-MONGO_URI=mongodb://admin:adminpassword@localhost:27017/youappdb?authSource=admin
-
-# RabbitMQ
-RABBITMQ_URL=amqp://admin:adminpassword@localhost:5672
 
 # JWT
 JWT_SECRET=your_super_secret_key

@@ -52,7 +52,7 @@ Backend will run on: **http://localhost:3001**
 
 ```bash
 git clone https://github.com/avesin/myapp.git
-cd flutter-youapp
+cd myapp
 ```
 
 ### 2. Create `.env` for Flutter
